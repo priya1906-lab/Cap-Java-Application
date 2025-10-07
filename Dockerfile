@@ -1,11 +1,5 @@
-FROM maven:3.9.2-openjdk-17 AS build
-WORKDIR /app
-COPY pom.xml .
-RUN mvn dependency:go-offline -build
-COPY src ./src
-RUN mvn clean package -DskipTests
-FROM openjdk:17
-WORKDIR /app 
-COPY --from=build /app/target/*.jar app.jar
+FROM tomcat:9.0
+RUN rm -rf /usr/local/tomcat/webapps/*
+COPY target/Cap-Java-Application.war /usr/local/tomcat/webapps/ROOT.war
 EXPOSE 8080
-ENTRYPOINT [ "java", "-jar", "app.jar"]
+CMD [ "catalina.sh" , "run"]
