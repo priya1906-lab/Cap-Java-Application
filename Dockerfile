@@ -6,4 +6,3 @@ RUN mvn clean package
 
 FROM tomcat:9.0
 COPY --from=builder /app/target/maven-web-application.war /user/local/tomcat/webapps/ROOT.war
-EXPOSE 8080
